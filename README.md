@@ -17,5 +17,21 @@ Afin de faire fonctionner la passerelle, les prérequis sont les suivants:
 - Avoir installer les palettes supplémentaires suivantes dans node-red:
   - [node-red-contrib-modbus](https://www.npmjs.com/package/node-red-contrib-modbus).
   - [node-red-contrib-actionflows](https://www.npmjs.com/package/node-red-contrib-actionflows).
-  - 
+  - [node-red-contrib-simple-message-queue](https://www.npmjs.com/package/node-red-contrib-simple-message-queue).
+  - [node-red-node-rbe](https://www.npmjs.com/package/node-red-node-rbe).
+  
+
+## Installation
+
+- Importer le fichier [Helios_to_mqtt](https://github.com/NextDom/VMC_Helios_to_mqtt/blob/master/Helios_to_mqtt.json) dans node-red.
+-Editer le bloc `write data to VMC`, puis éditer les paramètres du serveur `VMC`. Renseigner l'adresse IP de votre VMC.
+-Editer le bloc `send mqtt messages`, puis éditer les paramètres du serveur `mqtt`. Renseigner l'adresse IP de votre brocker mqtt.
+- Déployer le flow.
+
+## Envoi de commandes à la VMC
+
+
+
+
+
   
