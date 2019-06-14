@@ -126,7 +126,7 @@
       "func":"msg.payload = { \n    value: msg.payload,\n    //value: [30256,12337,12337,15664,0],\n    fc: 16,\n    unitid: 180,\n    address: 1,\n    quantity: msg.registers\n};\nreturn msg;",
       "outputs":1,
       "noerr":0,
-      "x":1040,
+      "x":1060,
       "y":200,
       "wires":[
          [
@@ -202,7 +202,8 @@
       "y":500,
       "wires":[
          [
-            "7f4e265f.b3f8d"
+            "d82b0a8a.c7f97",
+            "56320323.811ac4"
          ]
       ]
    },
@@ -214,7 +215,7 @@
       "func":"var payload = msg.payload;\nvar input = \"\";\nvar result = [];\nvar regexVariable = /[v]\\d\\d\\d\\d\\d/;\nvar regexTopic = /\\W/;\nvar variable = \"\";\nvar registers = 0;\nvar value = \"\";\nvar type = \"\";\nvar publishTopic = \"\";\n\nif (payload.hasOwnProperty(\"variable\")) {\n    //Check variable name [vxxxxx] with x=[0-9]\n    if (regexVariable.test(payload.variable)) {\n        variable = payload.variable;\n    } else {\n        return;\n    }\n} else {\n    return;\n}\n\nif (payload.hasOwnProperty(\"registers\")) {\n    //Check number of registers [5-20]\n    if (payload.registers >= 5 && payload.registers <= 20) {\n        registers = payload.registers;\n    } else {\n        return;\n    }\n} else {\n    return;\n}\n\nif (payload.hasOwnProperty(\"value\")) {\n    if (typeof payload.value === \"string\") {\n        value = payload.value;\n    } else {\n        value = payload.value.toString();\n    }\n    if (value.length >= 1 && value.length <= 31) {\n        input = variable + \"=\" + value; \n    } else {\n        input = variable; \n    }\n} else {\n    input = variable;\n}\n\nif (payload.hasOwnProperty(\"type\")) {\n    //Check type\n    if (payload.type == \"string\" || payload.type == \"number\") {\n        type = payload.type;\n    } else {\n        type = \"string\";\n    }\n} else {\n        type = \"string\";\n}\n\nif (payload.hasOwnProperty(\"topic\")) {\n    //Check mqtt topic\n    if (payload.topic.length > 0 && !regexTopic.test(payload.topic)) {\n        publishTopic = payload.topic;\n    } else {\n        publishTopic = variable;\n    }\n} else {\n    publishTopic = variable;\n}\n\n//Convert data (string to array word)\nfor (i = 0; i < input.length; i += 2) {\n  first  = input.charCodeAt(i);\n  second = \"0\".charCodeAt(0);\n  if ((i +1) < input.length) {\n    second = input.charCodeAt(i+1);\n  }\n  result.push(parseInt(\"0x\" + first.toString(16) + second.toString(16)))\n}\n\nwhile (result.length < registers) {\n    result.push(0x00); //Add null (0x00)\n}\n\n//Check data length\nif (result.length > registers) {\n    return;\n}\n\nmsg.payload = result;\nmsg.registers = registers;\nmsg.type = type;\nmsg.publishTopic = publishTopic;\nreturn msg;",
       "outputs":1,
       "noerr":0,
-      "x":700,
+      "x":720,
       "y":200,
       "wires":[
          [
@@ -226,12 +227,12 @@
       "id":"abcb1f9a.c8b9",
       "type":"mqtt in",
       "z":"2bdc8678.a14262",
-      "name":"",
+      "name":"receive mqtt messages",
       "topic":"vmc/commandes/#",
       "qos":"1",
       "datatype":"auto",
       "broker":"eca996cf.aecc38",
-      "x":130,
+      "x":140,
       "y":200,
       "wires":[
          [
@@ -244,12 +245,12 @@
       "id":"d82b0a8a.c7f97",
       "type":"mqtt out",
       "z":"2bdc8678.a14262",
-      "name":"send",
+      "name":"send mqtt messages",
       "topic":"",
       "qos":"1",
       "retain":"true",
       "broker":"eca996cf.aecc38",
-      "x":890,
+      "x":820,
       "y":500,
       "wires":[
 
@@ -263,7 +264,7 @@
       "property":"payload",
       "action":"",
       "pretty":false,
-      "x":310,
+      "x":330,
       "y":200,
       "wires":[
          [
@@ -372,27 +373,11 @@
       "arraySpltType":"len",
       "stream":false,
       "addname":"",
-      "x":450,
+      "x":470,
       "y":200,
       "wires":[
          [
             "8c8d3631.38c7f"
-         ]
-      ]
-   },
-   {
-      "id":"1ff9e569.05d16b",
-      "type":"status",
-      "z":"2bdc8678.a14262",
-      "name":"server status",
-      "scope":[
-         "d82b0a8a.c7f97"
-      ],
-      "x":590,
-      "y":440,
-      "wires":[
-         [
-            "7f4e265f.b3f8d"
          ]
       ]
    },
@@ -527,7 +512,7 @@
       "tostatus":false,
       "complete":"payload",
       "targetType":"msg",
-      "x":910,
+      "x":790,
       "y":460,
       "wires":[
 
@@ -713,9 +698,10 @@
       "y":260,
       "wires":[
          [
-            "7f4e265f.b3f8d",
             "c8511e49.e23288",
-            "cf3f9c63.60b558"
+            "cf3f9c63.60b558",
+            "d82b0a8a.c7f97",
+            "56320323.811ac4"
          ]
       ]
    },
@@ -809,7 +795,7 @@
       "from":"",
       "to":"",
       "reg":false,
-      "x":1290,
+      "x":1330,
       "y":200,
       "wires":[
          [
@@ -830,25 +816,6 @@
          [
             "822fa2e5.f5ad98",
             "b0788add.6def58"
-         ]
-      ]
-   },
-   {
-      "id":"7f4e265f.b3f8d",
-      "type":"queue",
-      "z":"2bdc8678.a14262",
-      "name":"",
-      "connected":"^connected",
-      "connectedType":"re",
-      "disconnected":"",
-      "disconnectedType":"re",
-      "sqlite":"/tmp/queue.sqlite",
-      "x":750,
-      "y":500,
-      "wires":[
-         [
-            "d82b0a8a.c7f97",
-            "56320323.811ac4"
          ]
       ]
    },
@@ -895,7 +862,7 @@
       "id":"eca996cf.aecc38",
       "type":"mqtt-broker",
       "z":"",
-      "name":"",
+      "name":"mosquitto",
       "broker":"localhost",
       "port":"1883",
       "clientid":"",
