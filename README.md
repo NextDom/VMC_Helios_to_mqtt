@@ -72,10 +72,12 @@ Il est possible de passer plusieurs commandes en même temps, dans la même payl
 }
 ```
 
-### Avertissement
+## Avertissement
 
-`**La passerelle n'effectue aucun contrôle sur les valeurs que vous pourriez écrire dans la VMC. Il est de votre responsabilté de vous assurez que les valeurs à écrire sont conformes au tableau des variables easyControls (cf doc easyControls).**`
+`La passerelle n'effectue aucun contrôle sur les valeurs que vous pourriez écrire dans la VMC. Il est de votre responsabilté de vous assurez que les valeurs à écrire sont conformes au tableau des variables easyControls (cf doc easyControls).`
 
+## Remerciements
 
+Je remercie xavax et lionel68, pour avoir servis de cobayes pour les tests et le débogage.
 
   
