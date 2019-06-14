@@ -15,5 +15,7 @@ Afin de faire fonctionner la passerelle, les prérequis sont les suivants:
 - Avoir installer un brocker MQTT ([mosquitto](https://mosquitto.org/), [activemq](https://activemq.apache.org/), etc).
 - Avoir installer node-red ([node-red](https://nodered.org/)).
 - Avoir installer les palettes supplémentaires suivantes dans node-red:
+  - [node-red-contrib-modbus](https://www.npmjs.com/package/node-red-contrib-modbus).
   - [node-red-contrib-actionflows](https://www.npmjs.com/package/node-red-contrib-actionflows).
+  - 
   
