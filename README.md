@@ -29,7 +29,25 @@ Afin de faire fonctionner la passerelle, les prérequis sont les suivants:
 - Déployer le flow.
 
 ## Envoi de commandes à la VMC
+
+### topic d'émission des commandes
+
+Les commandes de lecture ou d'écriture à destination de la VMC sont à publier sous le topic `vmc/commandes`. Il s'agit d'une payload json, qui peut regrouper une ou plusieurs commandes, en lecture comme en écriture. La passerelle se chargera de décomposer les commandes reçues et de séquencer leur envoi à la VMC.
+
 ### Struture d'une commande
+
+Une commande est contituée de la façon suivante:
+```
+{
+    "a": {
+        "variable": "v00101",
+        "registers": 5,
+        "value": "0",
+        "type": "number",
+        "topic": ""
+    }
+}
+```
 
 
 
