@@ -24,12 +24,12 @@ Afin de faire fonctionner la passerelle, les prérequis sont les suivants:
 ## Installation
 
 - Importer le fichier [Helios_to_mqtt](https://github.com/NextDom/VMC_Helios_to_mqtt/blob/master/Helios_to_mqtt.json) dans node-red.
--Editer le bloc `write data to VMC`, puis éditer les paramètres du serveur `VMC`. Renseigner l'adresse IP de votre VMC.
--Editer le bloc `send mqtt messages`, puis éditer les paramètres du serveur `mqtt`. Renseigner l'adresse IP de votre brocker mqtt.
+- Editer le bloc `write data to VMC`, puis éditer les paramètres du serveur `VMC`. Renseigner l'adresse IP de votre VMC.
+- Editer le bloc `send mqtt messages`, puis éditer les paramètres du serveur `mqtt`. Renseigner l'adresse IP de votre brocker mqtt.
 - Déployer le flow.
 
 ## Envoi de commandes à la VMC
-
+### Struture d'une commande
 
 
 
