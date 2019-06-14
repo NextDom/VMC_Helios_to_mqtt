@@ -30,7 +30,7 @@ Afin de faire fonctionner la passerelle, les prérequis sont les suivants:
 
 ## Envoi de commandes à la VMC
 
-### topic d'émission des commandes
+### Topic d'émission des commandes
 
 Les commandes de lecture ou d'écriture à destination de la VMC sont à publier sous le topic `vmc/commandes`. Il s'agit d'une payload json, qui peut regrouper une ou plusieurs commandes, en lecture comme en écriture. La passerelle se chargera de décomposer les commandes reçues et de séquencer leur envoi à la VMC.
 
@@ -48,7 +48,33 @@ Une commande est contituée de la façon suivante:
     }
 }
 ```
+La description des clés est la suivante:
+- `variable` : clé obligatoire renseignant la variable à lire ou à écrire dans la VMC (cf doc easyControls pour la liste complète des variables).
+- `registers` : clé obligatoire renseignant le nombre de registres Modbus à lire ou écrire. Ce paramètre correspond à la colonne `count` du tableau de variables (cf doc easyControls).
+- `value`: cette clé est optionnelle et n'est nécessaire que pour mettre à jour une variable de la VMC. La valeur doit être renseignée de façon cohérente par rapport au tableau de variables.
+- `type`: clé optionnelle, qui permet de retourner la valeur lue dans la vmc soit au format `string` (chaîne de caratère, valeur par défaut) soit au format `number` (nombre). 
+- `topic`: clé optionnelle, qui permet de personnaliser le topic de retour de la variable lue. Par défaut, le topic de retour sera `vmc\commandes\nom_de_la_variable`. Si une valeur est renseignée pour la clé `topic`, le topic de retour sera `vmc\commandes\valeur_de_topic`.
 
+Il est possible de passer plusieurs commandes en même temps, dans la même payload, par exemple:
+```
+{
+    "a": {
+        "variable": "v00101",
+        "registers": 5,
+        "value": "0",
+    },
+    "b": {
+        "variable": "v00102",
+        "registers": 5,
+        "type": "number",
+        "topic": "vitesse"
+    }
+}
+```
+
+### Avertissement
+
+`**La passerelle n'effectue aucun contrôle sur les valeurs que vous pourriez écrire dans la VMC. Il est de votre responsabilté de vous assurez que les valeurs à écrire sont conformes au tableau des variables easyControls (cf doc easyControls).**`
 
 
 
